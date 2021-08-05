@@ -288,11 +288,7 @@ public class CookieClickerCommand implements CommandExecutor {
 				sendInfo(p);
 			}
 		} else {
-			if (english) {
-				Bukkit.getConsoleSender().sendMessage(PREFIX + "§cIts have to be a player!");
-			} else {
-				Bukkit.getConsoleSender().sendMessage(PREFIX + "§cEs muss ein Spieler sein!");
-			}
+			Bukkit.getConsoleSender().sendMessage(PREFIX + languagetools.getONLY_PLAYER());
 		}
 
 		return false;

@@ -6,7 +6,7 @@
 		</attributes>
 	</classpathentry>
 	<classpathentry kind="src" path="src"/>
-	<classpathentry kind="lib" path="D:/Development/CookieClicker TestServer - 1.17/spigot.jar"/>
+	<classpathentry kind="lib" path="D:/Development/TestServer/CookieClicker TestServer/spigot.jar"/>
 	<classpathentry kind="lib" path="D:/Development/PlaceholderAPI-2.10.9.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

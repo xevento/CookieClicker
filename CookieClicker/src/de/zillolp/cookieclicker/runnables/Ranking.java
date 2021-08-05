@@ -6,7 +6,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.UUID;
-import java.util.Map.Entry;
 import java.util.Set;
 import java.util.TreeMap;
 
@@ -30,13 +29,11 @@ public class Ranking implements Runnable {
 	private HashMap<Player, PlayerProfil> profiles = plugin.playerprofiles;
 	private HashMap<String, Long> gekauft = plugin.gekauft;
 	private HashMap<Integer, String> hour = plugin.hour;
-	private HashMap<String, Long> proclicklist;
 	private HashMap<Integer, String> rang;
 	private int sched;
 
 	public Ranking() {
 		StatswallTools statswalltools = plugin.statswalltools;
-		proclicklist = new HashMap<>();
 		rang = new HashMap<>();
 		sched = Bukkit.getScheduler().scheduleSyncRepeatingTask(plugin, this, 0, statswalltools.getRefresh());
 	}
@@ -72,22 +69,19 @@ public class Ranking implements Runnable {
 
 	public void rankPlayers() {
 		StatswallTools statswalltools = plugin.statswalltools;
-		proclicklist.clear();
 		rang.clear();
-		for (Entry<Player, PlayerProfil> profil : profiles.entrySet()) {
-			proclicklist.put(profil.getKey().getUniqueId().toString(), profil.getValue().getProclick());
-		}
 		int in = 0;
-		Set<String> keys = proclicklist.keySet();
-		for (String key : keys) {
+		Set<Player> keys = profiles.keySet();
+		for (Player key : keys) {
 			in++;
 			if (in <= 5) {
-				Player k = Bukkit.getPlayer(UUID.fromString(key));
+				String uuid = key.getUniqueId().toString();
+				Player k = Bukkit.getPlayer(UUID.fromString(uuid));
 				PlayerProfil profil = profiles.get(k);
 				if (profil != null) {
-					datenmanager.setCookies(key, profil.getCookies());
-					datenmanager.setProclick(key, profil.getProclick());
-					datenmanager.setClickerclicks(key, profil.getClickerclicks());
+					datenmanager.setCookies(uuid, profil.getCookies());
+					datenmanager.setProclick(uuid, profil.getProclick());
+					datenmanager.setClickerclicks(uuid, profil.getClickerclicks());
 				}
 			} else {
 				break;

@@ -75,14 +75,26 @@ public class BoosterListener extends InventorySetter implements Listener {
 							String booster1 = languagetools.getBOOSTER_NOT_ACTIVE(name1);
 							String booster2 = languagetools.getBOOSTER_NOT_ACTIVE(name2);
 							if (itemname.equalsIgnoreCase(booster)) {
-								boosterprofil.removeMilk(boostertools.getPreis());
-								startBooster(p, clickedinv, boosterprofil, 1, name);
+								if (boosterprofil.getMilk() >= boostertools.getPreis()) {
+									boosterprofil.removeMilk(boostertools.getPreis());
+									startBooster(p, clickedinv, boosterprofil, 1, name);
+								} else {
+									buyFail(p);
+								}
 							} else if (itemname.equalsIgnoreCase(booster1)) {
-								boosterprofil.removeMilk(boostertools.getPreis1());
-								startBooster(p, clickedinv, boosterprofil, 2, name1);
+								if (boosterprofil.getMilk() >= boostertools.getPreis1()) {
+									boosterprofil.removeMilk(boostertools.getPreis1());
+									startBooster(p, clickedinv, boosterprofil, 2, name1);
+								} else {
+									buyFail(p);
+								}
 							} else if (itemname.equalsIgnoreCase(booster2)) {
-								boosterprofil.removeMilk(boostertools.getPreis2());
-								startBooster(p, clickedinv, boosterprofil, 3, name2);
+								if (boosterprofil.getMilk() >= boostertools.getPreis2()) {
+									boosterprofil.removeMilk(boostertools.getPreis2());
+									startBooster(p, clickedinv, boosterprofil, 3, name2);
+								} else {
+									buyFail(p);
+								}
 							}
 						} else {
 							p.sendMessage(languagetools.getBOOSTER_LIMIT_MESSAGE());
@@ -91,6 +103,7 @@ public class BoosterListener extends InventorySetter implements Listener {
 				}
 			}
 		}
+
 	}
 
 	@EventHandler
@@ -136,5 +149,12 @@ public class BoosterListener extends InventorySetter implements Listener {
 		}
 		profil.setInAnimation(true);
 		profil.setAnimation(new BoosterAnimation(p, profil, inv, name));
+	}
+
+	private void buyFail(Player p) {
+		boolean sounds = plugin.configtools.getSounds();
+		if (sounds) {
+			p.playSound(p.getLocation(), XSound.BLOCK_ANVIL_BREAK.parseSound(), 10, 10);
+		}
 	}
 }
