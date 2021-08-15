@@ -3,11 +3,15 @@ package de.zillolp.cookieclicker.listeners.interact;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Random;
+import java.util.Set;
 
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
+import org.bukkit.GameMode;
+import org.bukkit.event.player.PlayerAnimationEvent;
+import org.bukkit.event.player.PlayerAnimationType;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -34,6 +38,24 @@ public class ClickerClickListener extends InventorySetter implements Listener {
 	private HashMap<Player, PlayerProfil> profiles = plugin.playerprofiles;
 	private HashMap<Player, BoosterProfil> boosters = plugin.boosterprofiles;
 
+	@EventHandler
+	public void onAnimation(PlayerAnimationEvent e) {
+		Block block = e.getPlayer().getTargetBlock((Set<Material>) null, 5);
+		if(e.getAnimationType() == PlayerAnimationType.ARM_SWING && block.getType() != Material.AIR && e.getPlayer().getGameMode() == GameMode.ADVENTURE) {
+			if (block.getType() != Material.AIR && clickerlist.contains(block.getLocation())) {
+				LanguageTools languagetools = plugin.languagetools;
+				boolean sounds = plugin.configtools.getSounds();
+				Player p = e.getPlayer();
+				PlayerProfil profil = profiles.get(p);
+				BoosterProfil booster = boosters.get(p);
+				if (booster.IsBooster()) {
+					sendClickMessage(p, false, profil.getProclick());
+				} else {
+					sendClickMessage(p, true, profil.getProclick() * 2);
+				}
+			}
+		}
+	}
 	@EventHandler
 	public void on(PlayerInteractEvent e) {
 		Block block = e.getClickedBlock();
